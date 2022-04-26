@@ -1,39 +1,70 @@
-// Write your code here
-import {PieChart, Pie, Legend, Cell} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, Legend} from 'recharts'
 
 import './index.css'
 
-const VaccinationByGender = props => {
-  const {vaccinationByGenderDetails} = props
+const VaccinationCoverage = props => {
+  const dataFormatter = number => {
+    if (number > 1000) {
+      return `${(number / 1000).toString()}k`
+    }
+    return number.toString()
+  }
+  const {vaccinationCoverageDetails} = props
 
   return (
-    <div className="vaccination-by-gender-container">
-      <h1 className="vaccination-by-gender-heading">Vaccination by gender</h1>
-      <PieChart width={1000} height={300}>
-        <Pie
-          cx="50%"
-          cy="60%"
-          data={vaccinationByGenderDetails}
-          startAngle={180}
-          endAngle={0}
-          innerRadius="30%"
-          outerRadius="60%"
-          dataKey="count"
-        >
-          <Cell name="Male" fill="#f54394" />
-          <Cell name="Female" fill="#5a8dee" />
-          <Cell name="Others" fill="#2cc6c6" />
-        </Pie>
-        <Legend
-          iconType="circle"
-          layout="horizontal"
-          verticalAlign="bottom"
-          align="center"
-          wrapperStyle={{fontSize: 12, fontFamily: 'Roboto'}}
+    <div className="vaccination-by-coverage-container">
+      <h1 className="vaccination-by-coverage-heading">Vaccination Coverage</h1>
+      <BarChart
+        width={900}
+        height={400}
+        data={vaccinationCoverageDetails}
+        margin={{
+          top: 5,
+        }}
+      >
+        <XAxis
+          dataKey="vaccineDate"
+          tick={{
+            stroke: '#6c757d',
+            strokeWidth: 1,
+            fontSize: 15,
+            fontFamily: 'Roboto',
+          }}
         />
-      </PieChart>
+        <YAxis
+          tickFormatter={dataFormatter}
+          tick={{
+            stroke: '#6c757d',
+            strokeWidth: 0.5,
+            fontSize: 15,
+            fontFamily: 'Roboto',
+          }}
+        />
+        <Legend
+          wrapperStyle={{
+            paddingTop: 20,
+            textAlign: 'center',
+            fontSize: 12,
+            fontFamily: 'Roboto',
+          }}
+        />
+        <Bar
+          dataKey="dose1"
+          name="Dose 1"
+          fill="#5a8dee"
+          radius={[10, 10, 0, 0]}
+          barSize="20%"
+        />
+        <Bar
+          dataKey="dose2"
+          name="Dose 2"
+          fill="#f54394"
+          radius={[5, 5, 0, 0]}
+          barSize="20%"
+        />
+      </BarChart>
     </div>
   )
 }
 
-export default VaccinationByGender
+export default VaccinationCoverage
